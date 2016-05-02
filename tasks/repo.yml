@@ -1,0 +1,14 @@
+---
+- name: Ensure that our zbackup storage path exists
+  file:
+    path: "{{ zbackup_storage_path }}"
+    state: directory
+    owner: "{{ zbackup_owner }}"
+    mode: u=rwx,g=,o=
+- name: Initialize zbackup repo
+  shell: "zbackup init --non-encrypted {{ zbackup_storage_path }}/repo"
+  args:
+    creates: "{{ zbackup_storage_path }}/repo"
+  become: yes
+  become_user: "{{ zbackup_owner }}"
+

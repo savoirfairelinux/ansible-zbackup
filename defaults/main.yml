@@ -1,0 +1,5 @@
+---
+# Where to put our repo and its wrapper scripts.
+zbackup_storage_path: ""
+# Owner of the zbackup repo
+zbackup_owner: ""

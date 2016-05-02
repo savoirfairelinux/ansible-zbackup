@@ -1,0 +1,10 @@
+---
+- name: Ensure that our dump/get scripts are there
+  template:
+    src: "{{ item }}.sh"
+    dest: "{{ zbackup_storage_path }}/{{ item }}"
+    owner: "{{ zbackup_owner }}"
+    mode: u=rwx,g=,o=
+  with_items:
+    - dump
+    - getlatest
