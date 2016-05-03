@@ -1,3 +1,5 @@
 #!/bin/bash
-TIMESTAMP=`cat "{{ zbackup_storage_path }}/latest_timestamp"`
-zbackup restore "{{ zbackup_storage_path }}/repo/backups/archive-${TIMESTAMP}"
+SCRIPT=`realpath $0`
+SCRIPTPATH=`dirname $SCRIPT`
+TIMESTAMP=`cat "${SCRIPTPATH}/latest_timestamp"`
+zbackup restore "${SCRIPTPATH}/repo/backups/archive-${TIMESTAMP}" {% if zbackup_compress_output %}| gzip -c{% endif %}

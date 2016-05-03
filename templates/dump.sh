@@ -1,4 +1,6 @@
 #!/bin/sh
+SCRIPT=`realpath $0`
+SCRIPTPATH=`dirname $SCRIPT`
 TIMESTAMP=`date '+%Y%m%d%H%M%S'`
-zbackup backup "{{ zbackup_storage_path }}/repo/backups/archive-${TIMESTAMP}"
-echo ${TIMESTAMP} > "{{ zbackup_storage_path }}/latest_timestamp"
+zbackup backup "${SCRIPTPATH}/repo/backups/archive-${TIMESTAMP}"
+echo ${TIMESTAMP} > "${SCRIPTPATH}/latest_timestamp"

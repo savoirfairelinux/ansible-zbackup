@@ -3,3 +3,7 @@
 zbackup_storage_path: ""
 # Owner of the zbackup repo
 zbackup_owner: ""
+# zbackup only deals with uncompressed tars. However, because the getlatest script is often invoked
+# through the network, you can set this flag to true to have the output (only the output, that is,
+# the getlatest script, not the dump script) gzipped.
+zbackup_compress_output: no
