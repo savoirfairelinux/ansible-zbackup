@@ -1,9 +1,19 @@
 ---
 # Where to put our repo and its wrapper scripts.
 zbackup_storage_path: ""
+
 # Owner of the zbackup repo
 zbackup_owner: ""
+
 # zbackup only deals with uncompressed tars. However, because the getlatest script is often invoked
 # through the network, you can set this flag to true to have the output (only the output, that is,
 # the getlatest script, not the dump script) gzipped.
 zbackup_compress_output: no
+
+# Controls whether we create an initial backups in cases where we provision a fresh, empty repo.
+# Source of that dump will be supplied by zbackup_initial_dump_file
+# This is a useful feature in projects that always assume that we can always restore from the repo.
+zbackup_do_initial_dump: no
+
+# Path of a file on the ansible host or on the target host to use for the initial dump
+zbackup_initial_dump_file: ''

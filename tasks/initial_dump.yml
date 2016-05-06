@@ -1,0 +1,23 @@
+---
+- include: do_we_have_a_dump.yml
+
+- block:
+  - name: Copy over initial dump
+    copy:
+      src: "{{ zbackup_initial_dump_file }}"
+      dest: /tmp/to_dump.tar.gz
+  - name: Make sure that we have a clean space to work in
+    file: path=/tmp/to_dump.tar state=absent
+  - name: Ensure that we don't have a gzipped tar
+    shell: "gzip -d /tmp/to_dump.tar.gz || mv /tmp/to_dump.tar.gz /tmp/to_dump.tar"
+  - name: Send that initial dump into the backup
+    shell: "{{ zbackup_storage_path }}/dump < /tmp/to_dump.tar" 
+  - include: do_we_have_a_dump.yml
+  become: yes
+  become_user: "{{ zbackup_owner }}"
+  when: not latest_timestamp.stat.exists and zbackup_initial_dump_file != ''
+
+
+- fail:
+    msg: We couldn't manage to import an initial dump!
+  when: not latest_timestamp.stat.exists

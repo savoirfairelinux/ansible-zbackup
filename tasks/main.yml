@@ -2,4 +2,6 @@
 - include: system.yml
 - include: repo.yml
 - include: scripts.yml
+- include: initial_dump.yml
+  when: "{{ zbackup_do_initial_dump }}"
 
