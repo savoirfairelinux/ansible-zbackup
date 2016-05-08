@@ -4,3 +4,8 @@
   with_items:
     - zbackup
 
+- name: Ensure that zbackup_owner exists
+  user:
+    name: "{{ zbackup_owner }}"
+    createhome: no
+
