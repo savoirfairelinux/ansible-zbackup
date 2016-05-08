@@ -17,6 +17,13 @@
   become_user: "{{ zbackup_owner }}"
   when: not latest_timestamp.stat.exists and zbackup_initial_dump_file != ''
 
+- block:
+  - name: Run initial dump fetch command
+    shell: "{{ zbackup_initial_dump_fetch_command }} | {{ zbackup_storage_path }}/dump"
+  - include: do_we_have_a_dump.yml
+  become: yes
+  become_user: "{{ zbackup_owner }}"
+  when: not latest_timestamp.stat.exists and zbackup_initial_dump_fetch_command != ''
 
 - fail:
     msg: We couldn't manage to import an initial dump!
