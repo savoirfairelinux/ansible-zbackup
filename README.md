@@ -20,8 +20,7 @@ Here's an example usage:
     zbackup_storage_path: /opt/myproject/backups
     zbackup_owner: myproject_user
 
-Once the system is provisioned, dump your gzipped tar directly in your backup's `dump` command
-with:
+Once the system is provisioned, dump your tar directly in your backup's `dump` command with:
 
     cat mybackup.tar | '/opt/myproject/backups/dump'
 
