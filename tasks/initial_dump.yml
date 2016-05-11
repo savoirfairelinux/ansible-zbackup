@@ -1,17 +1,31 @@
 ---
 - include: do_we_have_a_dump.yml
 
+# We have to be root for this, that's why we clean before the following block.
+- name: Make sure that we have a clean space to work in
+  file:
+    path: "/tmp/{{ item }}"
+    state: absent
+  with_items:
+    - to_dump.tar
+    - to_dump.tar.gz
+
 - block:
   - name: Copy over initial dump
     copy:
       src: "{{ zbackup_initial_dump_file }}"
       dest: /tmp/to_dump.tar.gz
-  - name: Make sure that we have a clean space to work in
-    file: path=/tmp/to_dump.tar state=absent
   - name: Ensure that we don't have a gzipped tar
     shell: "gzip -d /tmp/to_dump.tar.gz || mv /tmp/to_dump.tar.gz /tmp/to_dump.tar"
   - name: Send that initial dump into the backup
     shell: "{{ zbackup_storage_path }}/dump < /tmp/to_dump.tar" 
+  - name: Clean up after ourselves
+    file:
+      path: "/tmp/{{ item }}"
+      state: absent
+    with_items:
+      - to_dump.tar
+      - to_dump.tar.gz
   - include: do_we_have_a_dump.yml
   become: yes
   become_user: "{{ zbackup_owner }}"
