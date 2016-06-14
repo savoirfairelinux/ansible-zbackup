@@ -1,34 +1,31 @@
 ---
 - include: do_we_have_a_dump.yml
 
-# We have to be root for this, that's why we clean before the following block.
-- name: Make sure that we have a clean space to work in
-  file:
-    path: "/tmp/{{ item }}"
-    state: absent
-  with_items:
-    - to_dump.tar
-    - to_dump.tar.gz
-
+# It's important that we send the file to the server without `become`. Otherwise, our tarfile stays
+# in ansible's cache without being properly cleaned up (at least at the time of this writing).
+# This results in running out of disk space on our vagrant box in situations where the tarfile is
+# large. When we run as root, ansible's cache is properly cleaned up right after the `copy` action.
 - block:
   - name: Copy over initial dump
     copy:
       src: "{{ zbackup_initial_dump_file }}"
       dest: /tmp/to_dump.tar.gz
-  - name: Ensure that we don't have a gzipped tar
-    shell: "gzip -d /tmp/to_dump.tar.gz || mv /tmp/to_dump.tar.gz /tmp/to_dump.tar"
-  - name: Send that initial dump into the backup
-    shell: "{{ zbackup_storage_path }}/dump < /tmp/to_dump.tar" 
+  - name: Try sending the archive ungzipped
+    shell: "gzip -dc /tmp/to_dump.tar.gz | {{ zbackup_storage_path }}/dump"
+    ignore_errors: yes
+    register: try_gzipped
+    become: yes
+    become_user: "{{ zbackup_owner }}"
+  - name: Send the uncompressed file into the backup
+    shell: "{{ zbackup_storage_path }}/dump < /tmp/to_dump.tar.gz" 
+    when: try_gzipped|failed
+    become: yes
+    become_user: "{{ zbackup_owner }}"
   - name: Clean up after ourselves
     file:
-      path: "/tmp/{{ item }}"
+      path: "/tmp/to_dump.tar.gz"
       state: absent
-    with_items:
-      - to_dump.tar
-      - to_dump.tar.gz
   - include: do_we_have_a_dump.yml
-  become: yes
-  become_user: "{{ zbackup_owner }}"
   when: not latest_timestamp.stat.exists and zbackup_initial_dump_file != ''
 
 - block:
