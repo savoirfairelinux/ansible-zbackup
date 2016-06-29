@@ -10,15 +10,17 @@
     copy:
       src: "{{ zbackup_initial_dump_file }}"
       dest: /tmp/to_dump.tar.gz
-  - name: Try sending the archive ungzipped
+  - name: Get our file type
+    command: "/usr/bin/file /tmp/to_dump.tar.gz"
+    register: initial_dump_filetype
+  - name: Send the archive ungzipped
     shell: "gzip -dc /tmp/to_dump.tar.gz | {{ zbackup_storage_path }}/dump"
-    ignore_errors: yes
-    register: try_gzipped
+    when: "\"gzip\" in initial_dump_filetype.stdout"
     become: yes
     become_user: "{{ zbackup_owner }}"
   - name: Send the uncompressed file into the backup
     shell: "{{ zbackup_storage_path }}/dump < /tmp/to_dump.tar.gz" 
-    when: try_gzipped|failed
+    when: "\"gzip\" not in initial_dump_filetype.stdout"
     become: yes
     become_user: "{{ zbackup_owner }}"
   - name: Clean up after ourselves
