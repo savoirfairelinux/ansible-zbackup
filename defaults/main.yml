@@ -5,11 +5,6 @@ zbackup_storage_path: ""
 # Owner of the zbackup repo
 zbackup_owner: ""
 
-# zbackup only deals with uncompressed tars. However, because the getlatest script is often invoked
-# through the network, you can set this flag to true to have the output (only the output, that is,
-# the getlatest script, not the dump script) gzipped.
-zbackup_compress_output: no
-
 # Controls whether we create an initial backups in cases where we provision a fresh, empty repo.
 # Source of that dump will be supplied by zbackup_initial_dump_file or
 # zbackup_initial_dump_fetch_command (in that order of priority)

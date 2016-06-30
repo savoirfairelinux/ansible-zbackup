@@ -24,11 +24,15 @@ Once the system is provisioned, dump your tar directly in your backup's `dump` c
 
     cat mybackup.tar | '/opt/myproject/backups/dump'
 
+Important note: it *needs* to be a tar-NOT-gzipped file. Don't feed it something else.
+
 Then, you can get back your latest dump with:
 
     '/opt/myproject/backups/getlatest' > mybackup.tar
 
-Important note: it *needs* to be a tar-NOT-gzipped file. Don't feed it something else.
+Or, you can get a gzipped version of the dump with:
+
+    '/opt/myproject/backups/getlatest -z' > mybackup.tar.gz
 
 [zbackup]: http://zbackup.org/
 
