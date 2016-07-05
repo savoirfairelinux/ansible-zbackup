@@ -1,5 +1,5 @@
 #!/bin/sh
-SCRIPT=`realpath $0`
+SCRIPT=`readlink -f "$0"`
 SCRIPTPATH=`dirname $SCRIPT`
 TIMESTAMP=`date '+%Y%m%d%H%M%S'`
 zbackup --non-encrypted backup "${SCRIPTPATH}/repo/backups/archive-${TIMESTAMP}" || exit 1

@@ -11,7 +11,10 @@ of that.
 ## Requirements
 
 * Ansible 2.0+
-* Debian Jessie deployment target
+* One of these target systems:
+    * Debian jessie
+    * Ubuntu 14.04
+    * Ubuntu 16.04
 
 ## Usage
 
