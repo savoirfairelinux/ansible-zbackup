@@ -14,7 +14,7 @@ while getopts ":z" opt; do
   esac
 done
 
-SCRIPT=`realpath $0`
+SCRIPT=`readlink -f "$0"`
 SCRIPTPATH=`dirname $SCRIPT`
 TIMESTAMP=`cat "${SCRIPTPATH}/latest_timestamp"`
 
