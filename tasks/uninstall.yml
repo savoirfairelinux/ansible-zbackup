@@ -1,0 +1,13 @@
+- debug:
+    msg: "Uninstalling the backup from {{ zbackup_owner }}"
+
+- name: Remove backup folder
+  file:
+    path: "{{ zbackup_storage_path }}"
+    state: absent
+
+- name: Remove user
+  user:
+    name: "{{ zbackup_owner }}"
+    remove: yes
+    state: absent
