@@ -10,7 +10,7 @@ of that.
 
 ## Requirements
 
-* Ansible 2.0+
+* Ansible 2.3+
 * One of these target systems:
     * Debian jessie
     * Ubuntu 14.04
