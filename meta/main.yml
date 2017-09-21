@@ -1,0 +1,7 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: "Savoir-faire Linux, Inc."
+  description: "Provisions a local backup storage folder powered by zBackup."
+  min_ansible_version: 2.2
