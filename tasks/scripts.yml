@@ -1,5 +1,6 @@
 ---
 - name: Ensure that our dump/get scripts are there
+  become: true
   template:
     src: "{{ item }}.sh"
     dest: "{{ zbackup_storage_path }}/{{ item }}"

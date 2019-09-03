@@ -1,5 +1,6 @@
 ---
 - name: Do we have at least a dump?
+  become: true
   stat:
     path: "{{ zbackup_storage_path }}/latest_timestamp"
   register: latest_timestamp
