@@ -1,5 +1,6 @@
 ---
 - name: Ensure that our zbackup storage path exists
+  become: yes
   file:
     path: "{{ zbackup_storage_path }}"
     state: directory
