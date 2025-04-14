@@ -1,4 +1,4 @@
-- include: do_we_have_a_dump.yml
+- include_tasks: do_we_have_a_dump.yml
 
 # It's important that we send the file to the server without `become`. Otherwise, our tarfile stays
 # in ansible's cache without being properly cleaned up (at least at the time of this writing).
@@ -28,7 +28,7 @@
       state: absent
   when: not latest_timestamp.stat.exists and zbackup_initial_dump_file != ''
 
-- include: do_we_have_a_dump.yml
+- include_tasks: do_we_have_a_dump.yml
 
 - name: Run initial dump fetch command
   shell: "{{ zbackup_initial_dump_fetch_command }} | {{ zbackup_storage_path }}/dump"
@@ -36,7 +36,7 @@
   become_user: "{{ zbackup_owner }}"
   when: not latest_timestamp.stat.exists and zbackup_initial_dump_fetch_command != ''
 
-- include: do_we_have_a_dump.yml
+- include_tasks: do_we_have_a_dump.yml
 
 - fail:
     msg: We couldn't manage to import an initial dump!

@@ -1,11 +1,11 @@
 ---
 - block:
-  - include: system.yml
-  - include: repo.yml
-  - include: scripts.yml
-  - include: initial_dump.yml
+  - import_tasks: system.yml
+  - import_tasks: repo.yml
+  - import_tasks: scripts.yml
+  - import_tasks: initial_dump.yml
     when: zbackup_do_initial_dump
   when: not zbackup_uninstall
 
-- include: uninstall.yml
+- import_tasks: uninstall.yml
   when: zbackup_uninstall
